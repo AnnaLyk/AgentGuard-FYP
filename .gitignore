@@ -218,3 +218,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# The database file can be recreated anythime by running database_setup.py
+agentguard.db
