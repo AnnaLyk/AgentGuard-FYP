@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS roles (
 
 
 # Create a table for users
-# Actual users will be added later during the login/authentication task
+# Test users are added separately using add_users.py
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,6 +40,17 @@ CREATE TABLE IF NOT EXISTS users (
     password_hash TEXT NOT NULL,
     role_id INTEGER NOT NULL,
     FOREIGN KEY (role_id) REFERENCES roles(id)
+)
+""")
+
+
+# Create a table for user sessions
+# Each session belongs to one logged in user
+cursor.execute("""
+CREATE TABLE IF NOT EXISTS sessions (
+    session_id TEXT PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 )
 """)
 

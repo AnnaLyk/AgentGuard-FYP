@@ -87,7 +87,60 @@ for category, label in category_labels:
 
 
 # ---------------------------------------------------
-# 6. CLOSE THE DATABASE
+# 6. CHECK THE USERS
+# ---------------------------------------------------
+
+# Get the usernames and their roles
+cursor.execute("""
+SELECT users.username, roles.name
+FROM users
+JOIN roles ON users.role_id = roles.id
+ORDER BY users.id
+""")
+
+users = cursor.fetchall()
+
+print("\nUsers:")
+for username, role in users:
+    print(f"{username}: {role}")
+
+
+# ---------------------------------------------------
+# 7. CHECK THE SESSIONS TABLE
+# ---------------------------------------------------
+
+# Check that the sessions table exists
+cursor.execute("""
+SELECT name
+FROM sqlite_master
+WHERE type = 'table' AND name = 'sessions'
+""")
+
+session_table = cursor.fetchone()
+
+print("\nSessions table:")
+print(session_table)
+
+
+# ---------------------------------------------------
+# 8. CHECK THE SAVED SESSIONS
+# ---------------------------------------------------
+
+cursor.execute("""
+SELECT sessions.session_id, users.username
+FROM sessions
+JOIN users ON sessions.user_id = users.id
+""")
+
+sessions = cursor.fetchall()
+
+print("\nSaved sessions:")
+for session_id, username in sessions:
+    print(f"{username}: {session_id}")
+
+
+# ---------------------------------------------------
+# 9. CLOSE THE DATABASE
 # ---------------------------------------------------
 
 # Close the connection when we are finished
